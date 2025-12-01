@@ -1,46 +1,56 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 🍔 Mobile Navigation Toggle
-    const burger = document.getElementById('burger');
-    const navLinks = document.getElementById('nav-links');
+    const themeToggle = document.getElementById('theme-toggle');
+    const body = document.body;
 
-    burger.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-        const icon = burger.querySelector('i');
-        // Toggle between bars and times icons (Requires Font Awesome)
-        icon.classList.toggle('fa-bars');
-        icon.classList.toggle('fa-times');
+    // Check for saved theme preference or default to light
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    
+    if (savedTheme === 'dark') {
+        body.classList.add('dark-theme');
+        themeToggle.textContent = '🌙';
+    } else {
+        body.classList.remove('dark-theme');
+        themeToggle.textContent = '☀️';
+    }
+
+    // Toggle theme on button click
+    themeToggle.addEventListener('click', () => {
+        if (body.classList.contains('dark-theme')) {
+            // Switch to Light
+            body.classList.remove('dark-theme');
+            localStorage.setItem('theme', 'light');
+            themeToggle.textContent = '☀️';
+        } else {
+            // Switch to Dark
+            body.classList.add('dark-theme');
+            localStorage.setItem('theme', 'dark');
+            themeToggle.textContent = '🌙';
+        }
     });
 
-    // Close mobile menu on link click
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', () => {
-            if (navLinks.classList.contains('active')) {
-                navLinks.classList.remove('active');
-                burger.querySelector('i').classList.add('fa-bars');
-                burger.querySelector('i').classList.remove('fa-times');
+    // Simple scroll spy for navigation active state (Optional)
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('nav a');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Remove active class from all links
+                navLinks.forEach(link => link.classList.remove('active'));
+                
+                // Add active class to the current section's link
+                const targetLink = document.querySelector(`nav a[href="#${entry.target.id}"]`);
+                if (targetLink) {
+                    targetLink.classList.add('active');
+                }
             }
         });
+    }, {
+        threshold: 0.5, // 50% of the section is visible
+        rootMargin: "0px 0px -40% 0px" // Adjusted to make detection more reliable
     });
 
-    // 📧 Contact Form Simulation
-    const contactForm = document.getElementById('contact-form');
-    const formMessage = document.getElementById('form-message');
-
-    contactForm.addEventListener('submit', (e) => {
-        e.preventDefault(); // Stop the default form submission
-
-        // In a real application, you would send this data to a server here.
-        // For a static site, you might use a service like Formspree or Netlify Forms.
-        
-        // Simulate a successful submission
-        formMessage.textContent = 'Thank you for your message! I will get back to you soon.';
-        formMessage.style.backgroundColor = '#4CAF50';
-        formMessage.style.display = 'block';
-        contactForm.reset(); // Clear the form
-
-        // Hide the message after 5 seconds
-        setTimeout(() => {
-            formMessage.style.display = 'none';
-        }, 5000);
+    sections.forEach(section => {
+        observer.observe(section);
     });
 });

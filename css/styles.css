@@ -1,26 +1,227 @@
-/* General Resets and Variables */
 :root {
-    --primary-color: #007BFF;
-    --secondary-color: #6c757d;
-    --dark-bg: #1f1f1f;
-    --light-text: #f4f4f4;
-    --light-bg: #ffffff;
-    --dark-text: #333;
-    --card-bg: #2a2a2a;
-    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    /* Light Theme - More Colorful */
+    --background-color: #f8f9fa; /* Very Light Gray */
+    --text-color: #e0eaf5; /* Dark text */
+    --primary-color: #0400ff; /* Orange-Red for Accents */
+    --secondary-color: #e9ecef; /* Light Grey for section backgrounds */
+    --card-background: #ffffff;
+    --border-color: #ced4da;
+    --header-background: #4B0082; /* Indigo Header */
+    --header-text: #ffffff;
+    --form-focus-shadow: rgba(255, 69, 0, 0.4); /* Focus shadow using primary color */
 }
 
+
+
+/* Dark Theme - Deep and Rich */
+body.dark-theme {
+    --background-color: #1C1C1C; /* Deep Dark Gray */
+    --text-color: #E0E0E0;
+    --primary-color: #94ffe6; /* Light Salmon/Coral Accent */
+    --secondary-color: #2C2C2C; /* Darker background for sections */
+    --card-background: #3a3a3a;
+    --border-color: #495057;
+    --header-background: #6A5ACD; /* Slate Blue Header */
+    --header-text: #ffffff;
+    --form-focus-shadow: rgba(255, 160, 122, 0.4);
+}
+
+
+/*------------------------------------------------------------------------------------------------------------------*/
+
+/* --- Profile Picture Styling for Image --- */
+.profile-picture-placeholder {
+    /* Define the container size */
+    width: 400px; /* Slightly larger size */
+    height: 330px;
+    
+    
+    /* NEW SHAPE: Use a highly rounded corner, not a perfect circle (e.g., 15%) */
+    border-radius: 5%; 
+    
+    /* Stylish Border & Shadow */
+    border:  1px solid var(--primary-color); /* Thicker border */
+    background-color: var(--card-background);
+    box-shadow: 0 0 0 8px var(--secondary-color), /* Outer subtle ring */
+                0 15px 30px rgba(0, 0, 0, 0.3); /* Stronger lift shadow */
+    
+    /* Center the element */
+    margin: 0 auto 1rem auto; 
+    overflow: hidden; 
+    transition: all 0.3s ease;
+  
+}
+
+.dark-theme .profile-picture-placeholder {
+    /* Adjust shadow color for dark theme readability */
+    box-shadow: 0 0 0 8px var(--secondary-color),
+                0 15px 30px rgba(0, 0, 0, 0.8);
+}
+
+.profile-picture-placeholder img {
+    /* Styles for the actual <img> element */
+    width: 100%;
+    height: 100%;
+    
+    object-fit: cover; 
+    
+    /* Match the container's rounded corners */
+    border-radius: 2%; 
+    
+    display: block;
+}
+
+/* Optional: Add a subtle hover effect */
+.profile-picture-placeholder:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 0 8px var(--secondary-color),
+                0 25px 40px rgba(0, 0, 0, 0.4); 
+}
+/*------------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------------------------*/
+/*Background GIF/Video Card Styles*/
+/* --- Home Section Background Image --- */
+
+#home {
+    /* IMPORTANT: Replace 'hero-background.jpg' with the actual path 
+    to your desired background image (e.g., a high-resolution cloud picture, workspace photo, etc.).
+    */
+    background-image: url('/css/Background.jpg'); 
+    background-size: cover; /* Ensures the image covers the entire section */
+    background-position: center center; /* Centers the image */
+    background-repeat: no-repeat;
+    
+    width: 100%;
+    /* Adds a subtle layer over the image to improve text readability */
+    position: relative;
+    padding: 24rem 0 10rem 0; /* Ensures original padding is kept */
+}
+
+/* We use a pseudo-element to create a darker overlay (like a scrim) */
+#home::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* Adjust this color and opacity to make your text/cards readable */
+    background-color: rgba(0, 0, 0, 0.45); /* 40% black overlay */
+    z-index: 1; 
+}
+
+/* Ensure all content (cards, text) in the hero section is above the overlay */
+#home .hero-content, 
+#home .contact-social {
+    position: relative;
+    z-index: 2; /* Higher than the ::before overlay (z-index: 1) */
+}
+
+/* Adjust card backgrounds within the hero section to be semi-transparent 
+   so the background image slightly shows through while maintaining readability. */
+#home .profile-card,
+#home .contact-social {
+    /* Slightly transparent white/dark background */
+    background-color: transparent !important;
+    box-shadow: none !important; 
+    border: none !important; /* Stronger shadow to lift card */
+}
+
+#home .social-links a {
+    color: white !important;
+}
+
+/* Set the profile picture border to white for contrast */
+#home .profile-picture-placeholder {
+    border-color: white !important; 
+    box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.4) !important; /* Subtle white shadow */
+}
+
+/* Fix for Dark Theme - Ensure transparent background but correct text color */
+body.dark-theme #home .profile-card,
+body.dark-theme #home .contact-social {
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+
+/*------------------------------------------------------------------------------------------------------------------*/
+/* --- GIF/Video Background Styles --- */
+
+/* 1. Target the specific card and set relative positioning */
+.capgemini-bg-card {
+    position: relative;
+    overflow: hidden; /* Ensures the background image is clipped to the card's rounded corners */
+    /* Remove any default left border to make the background visible */
+    border-left: none !important;
+    padding: 0; /* Remove default padding to allow media background to fill */
+}
+
+/* 2. Style the content wrapper to place text above the GIF */
+.job-content-wrapper {
+    position: relative;
+    z-index: 20; /* Higher than the media background */
+    
+    /* Re-introduce the padding that was removed from the parent card */
+    padding: 1.5rem; 
+    
+    /* Give the content a slight, transparent background for readability */
+    background-color: rgba(var(--text-color-rgb, 255, 255, 255), 0.1); 
+    border-left: 5px solid var(--primary-color); /* Re-add the vertical accent line */
+}
+
+/* 3. Style the background media container */
+.card-media-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10; /* Lower than content */
+    filter: brightness(0.5) blur(5px); /* Darken and blur the GIF */
+    transition: filter 0.5s ease;
+}
+
+/* 4. Ensure the GIF/Video fills the background */
+.card-media-background img, 
+.card-media-background video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures it covers the entire area */
+    display: block;
+}
+
+/* Optional: Make the card lighter/un-blurred on hover for a cool effect */
+.capgemini-bg-card:hover .card-media-background {
+    filter: brightness(0.6) blur(2px);
+}
+
+/* Dark Theme adjustment for readability of content wrapper */
+body.dark-theme .job-content-wrapper {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Optional: Add a text shadow for better readability on bright parts of the GIF */
+.job-content-wrapper h3, .job-content-wrapper p, .job-content-wrapper li {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+
+/*------------------------------------------------------------------------------------------------------------------*/
+/* General Styles */
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.5s ease, color 0.5s ease;
     line-height: 1.6;
-    background-color: var(--dark-bg);
-    color: var(--light-text);
 }
 
 .container {
@@ -29,283 +230,341 @@ body {
     padding: 0 20px;
 }
 
-section {
-    padding: 80px 0;
+/* Card Class Enhancement */
+.card {
+    background-color: var(--card-background);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-color);
+    padding: 20px;
+    transition: box-shadow 0.3s, transform 0.3s;
 }
 
-h1, h2, h3 {
-    margin-bottom: 20px;
-    font-weight: 700;
+.card:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
 }
 
-h2 {
-    font-size: 2.5em;
-    text-align: center;
-    margin-bottom: 50px;
+.dark-theme .card {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* --- Header & Navigation --- */
+/* Header/Navigation */
 header {
-    background-color: var(--dark-bg);
-    padding: 15px 0;
+    background-color: var(--header-background);
+    color: var(--header-text);
+    padding: 1rem 0;
     position: sticky;
     top: 0;
     z-index: 1000;
-    border-bottom: 1px solid var(--card-bg);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
-nav {
+header .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.logo {
-    font-size: 1.5em;
+header h1 {
+    font-size: 1.8rem;
+}
+
+nav a {
+    color: var(--header-text);
     text-decoration: none;
-    color: var(--primary-color);
-    font-weight: bold;
+    margin-left: 1.5rem;
+    font-weight: 600;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-.nav-links {
-    list-style: none;
-    display: flex;
+nav a:hover, nav a.active {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #FFD700;
 }
 
-.nav-links li {
-    margin-left: 30px;
-}
-
-.nav-links a {
-    color: var(--light-text);
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s;
-}
-
-.nav-links a:hover {
-    color: var(--primary-color);
-}
-
-.burger {
-    display: none;
-    font-size: 1.5em;
-    cursor: pointer;
-}
-
-/* --- Hero Section --- */
-.hero {
-    background: linear-gradient(135deg, var(--dark-bg), #0f0f0f);
-    padding: 150px 0;
-    text-align: center;
-}
-
-.hero h1 {
-    font-size: 3.5em;
-    margin-bottom: 10px;
-    color: var(--light-text);
-}
-
-.hero p {
-    font-size: 1.5em;
-    color: var(--secondary-color);
-    margin-bottom: 30px;
-}
-
-/* --- Buttons --- */
-.btn {
-    padding: 10px 20px;
+#theme-toggle {
+    background: var(--primary-color);
     border: none;
-    border-radius: 5px;
     cursor: pointer;
-    text-decoration: none;
-    transition: background-color 0.3s, transform 0.2s;
-    font-weight: bold;
-    display: inline-block;
+    font-size: 1.3rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 50px;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s;
 }
 
-.primary-btn {
-    background-color: var(--primary-color);
-    color: var(--light-bg);
+#theme-toggle:hover {
+    filter: brightness(1.2);
 }
 
-.primary-btn:hover {
-    background-color: #0056b3;
-    transform: translateY(-2px);
+/* Hero Section */
+.hero {
+    padding: 5rem 0 4rem 0;
+    display: flex;
+    gap: 40px;
+    align-items: center;
 }
 
-/* --- About Section --- */
-.about-section {
-    background-color: var(--card-bg);
+.hero-content {
+    flex-grow: 1;
 }
 
-.about-content {
-    max-width: 800px;
-    margin: 0 auto;
+.profile-card {
+    /* Overrides the general card padding for the hero section */
+    padding: 2.5rem; 
+}
+
+.profile-picture-placeholder {
+    font-size: 8rem;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.hero h2 {
+    color: var(--primary-color);
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.summary-text {
+    font-style: italic;
+    margin-top: 1.5rem;
+    color: var(--text-color);
+}
+
+/* Contact & Social Aside (Not a main card, kept separate style) */
+.contact-social {
+    width: 300px;
+    padding: 2rem;
+    background-color: var(--secondary-color);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.contact-social h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    border-bottom: 3px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+}
+
+.contact-social ul {
+    list-style: none;
+    margin-bottom: 2rem;
+}
+
+.contact-social ul li {
+    margin-bottom: 1rem;
+}
+
+.contact-social i {
+    margin-right: 10px;
+    color: var(--primary-color);
+}
+
+.social-links a {
+    font-size: 2.5rem;
+    margin-right: 15px;
+    color: var(--text-color);
+    transition: color 0.3s, transform 0.2s;
+}
+
+.social-links a:hover {
+    color: var(--primary-color);
+    transform: translateY(-3px);
+}
+
+/* Content Sections */
+.content-section {
+    padding: 3rem 0;
+    border-top: 1px solid var(--border-color);
+}
+
+.content-section h2 {
+    color: var(--header-background);
+    margin-bottom: 2rem;
+    font-size: 2.2rem;
     text-align: center;
 }
 
-.about-content p {
-    margin-bottom: 30px;
-    font-size: 1.1em;
+/* Experience */
+.job-entry {
+    margin-bottom: 2.5rem;
+    /* Remove card styles here as they are now applied via .card class */
+    border-left: 5px solid var(--primary-color); 
+    box-shadow: none; /* Let .card handle shadow */
 }
 
-.skills {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
+.job-entry h3 {
+    color: var(--primary-color);
+    margin-bottom: 0.2rem;
 }
 
-.skill-tag {
-    background-color: var(--primary-color);
-    color: var(--light-bg);
-    padding: 8px 15px;
-    border-radius: 20px;
-    font-size: 0.9em;
+.job-entry .duration {
+    color: #6c757d;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
 }
 
-/* --- Projects Section --- */
-.projects-section {
-    background-color: var(--dark-bg);
+.dark-theme .job-entry .duration {
+    color: #a0a0a0;
 }
 
-.project-grid {
+.job-entry ul {
+    margin-left: 20px;
+    padding-top: 0.5rem;
+    list-style-type: '👉';
+}
+
+.job-entry li {
+    padding-left: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Education Grid and Card Styling */
+.education-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
+    gap: 20px;
 }
 
-.project-card {
-    background-color: var(--card-bg);
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-    transition: transform 0.3s;
+.education-entry {
+    /* Uses .card class */
+    border-left: 5px solid var(--header-background);
 }
 
-.project-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.2);
+.education-entry h3 {
+    color: var(--header-background);
 }
 
-.project-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
+/* Skills Grid and Card Styling */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
 }
 
-.project-card h3 {
-    padding: 15px;
-    margin: 0;
+.skills-grid > .card {
+    border: 2px solid var(--primary-color);
+    /* Remove hover transform from individual skills cards to avoid overwhelming visual */
+    transform: none; 
+}
+
+.skills-grid > .card h3 {
     color: var(--primary-color);
+    margin-bottom: 0.7rem;
+    font-size: 1.1rem;
+    border-bottom: 1px dashed var(--primary-color);
+    padding-bottom: 0.5rem;
 }
 
-.project-card p {
-    padding: 0 15px 15px;
-    font-size: 0.95em;
-    color: #ccc;
-}
-
-.project-links {
-    padding: 15px;
-    display: flex;
-    gap: 15px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.link-btn {
-    color: var(--light-text);
-    text-decoration: none;
-    font-size: 0.9em;
-}
-
-.link-btn:hover {
-    color: var(--primary-color);
-}
-
-/* --- Contact Section --- */
-.contact-section {
-    background-color: var(--card-bg);
-    text-align: center;
-}
-
+/* Contact Form Styling */
 .contact-form {
     max-width: 600px;
-    margin: 30px auto 0;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+    margin: 0 auto;
+    padding: 2.5rem; /* Enhanced padding for the form card */
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.contact-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--primary-color);
 }
 
 .contact-form input[type="text"],
+.contact-form input[type="tel"],
 .contact-form input[type="email"],
 .contact-form textarea {
-    padding: 15px;
-    border: 1px solid #444;
-    border-radius: 5px;
-    background-color: #333;
-    color: var(--light-text);
-    font-size: 1em;
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-.contact-form textarea {
-    resize: vertical;
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px var(--form-focus-shadow);
 }
 
-#form-message {
-    padding: 10px;
-    background-color: #2a2a2a;
-    color: #4CAF50;
-    border-radius: 5px;
-    display: none;
+.contact-form button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
-/* --- Footer --- */
+.contact-form button[type="submit"]:hover {
+    background-color: #e63900; /* Darker primary color on hover */
+    transform: translateY(-1px);
+}
+
+/* Footer */
 footer {
-    background-color: var(--dark-bg);
     text-align: center;
-    padding: 20px 0;
-    border-top: 1px solid var(--card-bg);
+    padding: 1.5rem 0;
+    margin-top: 3rem;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.9rem;
+    color: #6c757d;
 }
 
-/* --- Mobile Responsiveness --- */
-@media (max-width: 768px) {
-    .nav-links {
-        position: absolute;
-        top: 51px; /* Height of header */
-        left: 0;
-        background-color: var(--card-bg);
-        width: 100%;
+.dark-theme footer {
+    color: #a0a0a0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+    .hero {
         flex-direction: column;
-        display: none;
-        padding: 20px 0;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        align-items: stretch;
     }
 
-    .nav-links.active {
-        display: flex;
-    }
-
-    .nav-links li {
-        margin: 10px 0;
-        text-align: center;
-    }
-
-    .burger {
-        display: block;
-    }
-
-    .hero h1 {
-        font-size: 2.5em;
-    }
-
-    .hero p {
-        font-size: 1.2em;
-    }
-
-    .project-grid {
-        grid-template-columns: 1fr;
+    .contact-social {
+        width: 100%;
+        margin-top: 20px;
     }
 }
+
+@media (max-width: 600px) {
+    header .container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    nav a {
+        margin: 0 0.4rem;
+        font-size: 0.9rem;
+    }
+}
+
+
+
